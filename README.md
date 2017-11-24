@@ -5,7 +5,7 @@ Plugin de Wordpress (WooCommerce) para pagamento por cartão de crédito..
 
 Após a instalação e configuração do plugin, a opção de cartão de crédito será adicionada as opções de pagamento, na última etapa do checkout.
 
-No painel administrativo (wp-admin), diversas informações serão salvas juntos ao pedido no WooCommerce, como o q quantidade de parcelas, juros, o valor total da cobraça e o JSON de respota da API do PJBank.
+No painel administrativo (wp-admin), diversas informações serão salvas juntos ao pedido no WooCommerce, como o quantidade de parcelas, juros, o valor total da cobraça e o JSON de respota da API do PJBank.
 
 ## Instalação ##
 
@@ -15,7 +15,7 @@ Como este plugin foi desenvolvido com o intuito de trabalhar em conjunto com o W
 
 ### Upload no Painel Administrativo do WordPress ###
 
-1. Baixe o repositório <a href="https://github.com/pjbank/pjbank-wp-plugin-cartao/archive/master.zip" target="_blank">pjbank-wp-plugin</a>
+1. Baixe o repositório <a href="https://github.com/pjbank/pjbank-wp-plugin-cartao/archive/master.zip" target="_blank">pjbank-wp-plugin-cartao</a>
 2. Acesse o Painel Administrativo do WordPress e navegue até o menu Plugins.
 3. Escolha a opção para adicionar um novo plugin.
 4. Ative o botão para fazer o upload manual do plugin.
@@ -25,13 +25,13 @@ Como este plugin foi desenvolvido com o intuito de trabalhar em conjunto com o W
 
 ### Upload via FTP ###
 
-1. Baixe o repositório <a href="https://github.com/pjbank/pjbank-wp-plugin/archive/master.zip" target="_blank">pjbank-wp-plugin</a>
+1. Baixe o repositório <a href="https://github.com/pjbank/pjbank-wp-plugin/archive/master.zip" target="_blank">pjbank-wp-plugin-cartao</a>
 2. Extraia o arquivo em seu computador.
 3. Faça o upload da pasta `pjbank-wp-plugin-master` no diretório `/wp-content/plugins/`.
 2. Acesse o Painel Administrativo do WordPress e navegue até o menu Plugins.
 7. Ative o plugin `Cartão PJBank`.
 
-### Usando o Painel Administrativo do WordPress ###
+### Usando o Painel Administrativo do WordPress ### 
 
 Ainda não disponível
 
