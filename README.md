@@ -1,0 +1,1 @@
+# pjbank-wp-plugin-cartao
