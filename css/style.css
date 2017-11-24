@@ -1,0 +1,36 @@
+.payment_method_pjbank_cartao .box_pagamento {
+    position: relative;
+    box-sizing: border-box;
+    padding: 1em;
+    margin: 1em 0;
+    font-size: .92em;
+    border-radius: 2px;
+    line-height: 1.5;
+    background-color: #dfdcde;
+    color: #515151;
+}
+.payment_method_pjbank_cartao .box_pagamento:before {
+    content: "";
+    display: block;
+    border: 1em solid #dfdcde;
+    border-top-color: rgb(223, 220, 222);
+    border-right-color: rgb(223, 220, 222);
+    border-left-color: rgb(223, 220, 222);
+    border-right-color: transparent;
+    border-left-color: transparent;
+    border-top-color: transparent;
+    position: absolute;
+    top: -.75em;
+    left: 0;
+    margin: -1em 0 0 2em;
+}
+.payment_method_pjbank_cartao .input-data-mes {
+    width: 46% !important;
+}
+.payment_method_pjbank_cartao .input-data-ano {
+    width: 46% !important;
+    margin: 0 !important
+}
+.payment_method_pjbank_cartao .input-total{
+    width: 100% !important; 
+}
