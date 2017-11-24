@@ -105,7 +105,7 @@ class WC_PJBank_Gateway_Cartao extends WC_Payment_Gateway {
         // Inicia chamada cURL
         $curl = curl_init();
         curl_setopt_array($curl, array(
-            CURLOPT_URL => "https://sandbox.pjbank.com.br/recebimentos/".$options['credencial_cartao']."/transacoes",
+            CURLOPT_URL => "https://api.pjbank.com.br/recebimentos/".$options['credencial_cartao']."/transacoes",
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_ENCODING => "",
             CURLOPT_MAXREDIRS => 10,
@@ -121,7 +121,7 @@ class WC_PJBank_Gateway_Cartao extends WC_Payment_Gateway {
                 "email_cartao": "'.get_user_meta( $user_id, 'billing_email', true ).'",
                 "celular_cartao": "'.get_user_meta( $user_id, 'billing_phone', true).'",
                 "codigo_cvv": "'.$codigo_cvv.'",
-                "valor": "'.$total.'",
+                "valor": '.$total.',
                 "parcelas": "'.$parcelas.'",
                 "descricao_pagamento": "",
                 "webhook": ""
@@ -150,7 +150,7 @@ class WC_PJBank_Gateway_Cartao extends WC_Payment_Gateway {
                 }
             }
             if($key == 'msg'){
-                if($erro){
+                if($error){
                     wc_add_notice( __('Erro de pagamento: ', 'woothemes') . $value, 'error' );
                 }
             }
