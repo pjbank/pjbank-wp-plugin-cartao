@@ -4,8 +4,8 @@ Plugin Name: Cartão PJBank
 Plugin URI:  https://pjbank.com.br
 Description: Plugin para receber pagamentos de cartão através do PJBank.
 Version:     1.0
-Author:      PJBank
-Author URI:  https://pjbank.com.br
+Author:      Lucas Martim
+Author URI:  https://linkedin.com/in/lmartim
 License:     GPL2
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 Text Domain: wporg
@@ -15,7 +15,8 @@ Domain Path: /languages
 
 function some_custom_checkout_field_cartao($checkout){
 	$user_id = get_current_user_id();
-	
+    
+    
 }
 add_action( 'woocommerce_after_order_notes', 'some_custom_checkout_field_cartao' );
 
@@ -30,10 +31,18 @@ function form_append_cartao(){
 
 	$enabled_cartao = $options['enabled'];
 
+	$credencial = $options['credencial_cartao'];
+
 	?>
+		<script type="text/javascript">/*{literal}<![CDATA[*/
+			var credencial = '<?php echo $credencial ?>';
+
+			superlogica.require("pjbank");
+			superlogica.pjbank("checkout_transparente", credencial);
+		/*]]>*/
+		</script>
 		<script>
 			jQuery(document).ready(function($){
-
 				var enabled_cartao = '<?php echo $enabled_cartao ?>';
 
 				if(enabled_cartao == 'no'){
@@ -61,7 +70,7 @@ function form_append_cartao(){
 									<div class='form-row'> \
 										<p class='numero-cartao form-row form-row-first'> \
 											<label for='numero_cartao'>Número do cartão</label> \
-											<input type='text' name='numero_cartao' class='input-text pjbank-cartao'> \
+											<input type='text' name='numero_cartao' class='input-text'> \
 										</p> \
 										<p class='vencimento-cartao form-row form-row-last'> \
 											<label for=''>Data de vencimento</label> \
@@ -136,9 +145,7 @@ add_action('woocommerce_checkout_after_order_review', 'form_append_cartao');
 function some_custom_checkout_field_process_cartao() {
 
 	if ($_POST['post_cartao'] == 'true'){
-		if(!$_POST['numero_cartao']){
-			wc_add_notice( __( '<b>Número do cartão</b> é um campo obrigatório.' ), 'error' );
-		}
+		
 		if(!$_POST['mes_vencimento']){
 			wc_add_notice( __( '<b>Mês de vencimento do cartão</b> é um campo obrigatório.' ), 'error' );
 		}
@@ -169,11 +176,18 @@ function init_pjbank_getway_cartao(){
 	wp_enqueue_style('style-cartao', plugin_dir_url( __FILE__ ) . 'css/style.css');
 
 	wp_enqueue_script('calcula-juros', plugin_dir_url( __FILE__ ) . 'js/calcula-juros.js');
-	wp_enqueue_script('checkout-transparente', 'https://s3-sa-east-1.amazonaws.com/widgets.superlogica.net/embed.js');
+	wp_enqueue_script('superlogica', 'https://s3-sa-east-1.amazonaws.com/widgets.superlogica.net/embed.js');
 }
 add_action( 'wp_loaded', 'init_pjbank_getway_cartao' );
 
+
+function init_checkout_transparente_cartao(){
+	
+}
+add_action( 'after_setup_theme', 'init_checkout_transparente_cartao');
+
 function add_pjbank_gateway_class_cartao( $methods ) { 
+	
 	$methods[] = 'WC_PJBank_Gateway_Cartao';
 	return $methods;
 }
