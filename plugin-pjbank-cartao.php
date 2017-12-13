@@ -70,7 +70,7 @@ function form_append_cartao(){
 									<div class='form-row'> \
 										<p class='numero-cartao form-row form-row-first'> \
 											<label for='numero_cartao'>Número do cartão</label> \
-											<input type='text' name='numero_cartao' class='input-text'> \
+											<input type='text' name='numero_cartao' class='input-text pjbank-cartao'> \
 										</p> \
 										<p class='vencimento-cartao form-row form-row-last'> \
 											<label for=''>Data de vencimento</label> \
@@ -92,17 +92,17 @@ function form_append_cartao(){
 											<label for='parcelas'>Quantidade de Parcelas</label> \
 											<select name='total' class='input-text input-total'> \
 												<option qtparcelas='1' parcelamento='"+retornaParcela(total, 1, jurosVista)+"' juros='"+jurosVista+"' value='"+retornaTotal(total, 1, jurosVista)+"' selected='selected'>À Vista - "+calculaJuros(total, 1, jurosVista)+"</option> \
-												<option qtparcelas='2' parcelamento='"+retornaParcela(total, 2, jurosSec)+"' juros='"+jurosSec+"' value='"+retornaTotal(total, 2, jurosSec)+"'>2x - "+calculaJuros(total, 2, jurosSec)+"</option> \
-												<option qtparcelas='3' parcelamento='"+retornaParcela(total, 3, jurosSec)+"' juros='"+jurosSec+"' value='"+retornaTotal(total, 3, jurosSec)+"'>3x - "+calculaJuros(total, 3, jurosSec)+"</option> \
-												<option qtparcelas='4' parcelamento='"+retornaParcela(total, 4, jurosSec)+"' juros='"+jurosSec+"' value='"+retornaTotal(total, 4, jurosSec)+"'>4x - "+calculaJuros(total, 4, jurosSec)+"</option> \
-												<option qtparcelas='5' parcelamento='"+retornaParcela(total, 5, jurosSec)+"' juros='"+jurosSec+"' value='"+retornaTotal(total, 5, jurosSec)+"'>5x - "+calculaJuros(total, 5, jurosSec)+"</option> \
-												<option qtparcelas='6' parcelamento='"+retornaParcela(total, 6, jurosSec)+"' juros='"+jurosSec+"' value='"+retornaTotal(total, 6, jurosSec)+"'>6x - "+calculaJuros(total, 6, jurosSec)+"</option> \
-												<option qtparcelas='7' parcelamento='"+retornaParcela(total, 7, jurosTri)+"' juros='"+jurosTri+"' value='"+retornaTotal(total, 7, jurosTri)+"'>7x - "+calculaJuros(total, 7, jurosTri)+"</option> \
-												<option qtparcelas='8' parcelamento='"+retornaParcela(total, 8, jurosTri)+"' juros='"+jurosTri+"' value='"+retornaTotal(total, 8, jurosTri)+"'>8x - "+calculaJuros(total, 8, jurosTri)+"</option> \
-												<option qtparcelas='9' parcelamento='"+retornaParcela(total, 9, jurosTri)+"' juros='"+jurosTri+"' value='"+retornaTotal(total, 9, jurosTri)+"'>9x - "+calculaJuros(total, 9, jurosTri)+"</option> \
-												<option qtparcelas='10' parcelamento='"+retornaParcela(total, 10, jurosTri)+"' juros='"+jurosTri+"' value='"+retornaTotal(total, 10, jurosTri)+"'>10x - "+calculaJuros(total, 10, jurosTri)+"</option> \
-												<option qtparcelas='11' parcelamento='"+retornaParcela(total, 11, jurosTri)+"' juros='"+jurosTri+"' value='"+retornaTotal(total, 11, jurosTri)+"'>11x - "+calculaJuros(total, 11, jurosTri)+"</option> \
-												<option qtparcelas='12' parcelamento='"+retornaParcela(total, 12, jurosTri)+"' juros='"+jurosTri+"' value='"+retornaTotal(total, 12, jurosTri)+"'>12x - "+calculaJuros(total, 12, jurosTri)+"</option> \
+												<option qtparcelas='2' parcelamento='"+retornaParcela(total, 2, jurosSec)+"' juros='"+jurosSec+"' value='"+retornaTotal(total, 2, jurosSec)+"'>2x com juros de "+calculaJuros(total, 2, jurosSec)+"</option> \
+												<option qtparcelas='3' parcelamento='"+retornaParcela(total, 3, jurosSec)+"' juros='"+jurosSec+"' value='"+retornaTotal(total, 3, jurosSec)+"'>3x com juros de "+calculaJuros(total, 3, jurosSec)+"</option> \
+												<option qtparcelas='4' parcelamento='"+retornaParcela(total, 4, jurosSec)+"' juros='"+jurosSec+"' value='"+retornaTotal(total, 4, jurosSec)+"'>4x com juros de "+calculaJuros(total, 4, jurosSec)+"</option> \
+												<option qtparcelas='5' parcelamento='"+retornaParcela(total, 5, jurosSec)+"' juros='"+jurosSec+"' value='"+retornaTotal(total, 5, jurosSec)+"'>5x com juros de "+calculaJuros(total, 5, jurosSec)+"</option> \
+												<option qtparcelas='6' parcelamento='"+retornaParcela(total, 6, jurosSec)+"' juros='"+jurosSec+"' value='"+retornaTotal(total, 6, jurosSec)+"'>6x com juros de "+calculaJuros(total, 6, jurosSec)+"</option> \
+												<option qtparcelas='7' parcelamento='"+retornaParcela(total, 7, jurosTri)+"' juros='"+jurosTri+"' value='"+retornaTotal(total, 7, jurosTri)+"'>7x com juros de "+calculaJuros(total, 7, jurosTri)+"</option> \
+												<option qtparcelas='8' parcelamento='"+retornaParcela(total, 8, jurosTri)+"' juros='"+jurosTri+"' value='"+retornaTotal(total, 8, jurosTri)+"'>8x com juros de "+calculaJuros(total, 8, jurosTri)+"</option> \
+												<option qtparcelas='9' parcelamento='"+retornaParcela(total, 9, jurosTri)+"' juros='"+jurosTri+"' value='"+retornaTotal(total, 9, jurosTri)+"'>9x com juros de "+calculaJuros(total, 9, jurosTri)+"</option> \
+												<option qtparcelas='10' parcelamento='"+retornaParcela(total, 10, jurosTri)+"' juros='"+jurosTri+"' value='"+retornaTotal(total, 10, jurosTri)+"'>10x com juros de "+calculaJuros(total, 10, jurosTri)+"</option> \
+												<option qtparcelas='11' parcelamento='"+retornaParcela(total, 11, jurosTri)+"' juros='"+jurosTri+"' value='"+retornaTotal(total, 11, jurosTri)+"'>11x com juros de "+calculaJuros(total, 11, jurosTri)+"</option> \
+												<option qtparcelas='12' parcelamento='"+retornaParcela(total, 12, jurosTri)+"' juros='"+jurosTri+"' value='"+retornaTotal(total, 12, jurosTri)+"'>12x com juros de "+calculaJuros(total, 12, jurosTri)+"</option> \
 											</select>\
 											<input type='hidden' value='0' name='juros' class='input-juros'>\
 											<input type='hidden' value='1' name='parcelas' class='input-parcelas'>\

@@ -73,7 +73,8 @@ class WC_PJBank_Gateway_Cartao extends WC_Payment_Gateway {
         global $woocommerce;
         $order = wc_get_order( $order_id );
         
-        $numero_cartao = $_POST['numero_cartao'];
+        $token_cartao = $_POST['pjbank-token'];
+
         $nome_cartao = $_POST['nome_cartao'];
         $cpf_cartao = $_POST['cpf_cartao'];
         $mes_vencimento = $_POST['mes_vencimento'];
@@ -113,7 +114,7 @@ class WC_PJBank_Gateway_Cartao extends WC_Payment_Gateway {
             CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
             CURLOPT_CUSTOMREQUEST => "POST",            
             CURLOPT_POSTFIELDS => '{
-                "numero_cartao": "'.$numero_cartao.'",
+                "token_cartao": "'.$token_cartao.'",
                 "nome_cartao": "'.$nome_cartao.'",
                 "mes_vencimento": "'.$mes_vencimento.'",
                 "ano_vencimento": "'.$ano_vencimento.'",
@@ -121,7 +122,7 @@ class WC_PJBank_Gateway_Cartao extends WC_Payment_Gateway {
                 "email_cartao": "'.get_user_meta( $user_id, 'billing_email', true ).'",
                 "celular_cartao": "'.get_user_meta( $user_id, 'billing_phone', true).'",
                 "codigo_cvv": "'.$codigo_cvv.'",
-                "valor": '.$total.',
+                "valor": "'.$total.'",
                 "parcelas": "'.$parcelas.'",
                 "descricao_pagamento": "",
                 "webhook": ""
@@ -137,9 +138,8 @@ class WC_PJBank_Gateway_Cartao extends WC_Payment_Gateway {
         // FIM - Chamada da API para gerar o boleto
 
         // Adiciona custom note no pedido, com o JSON que retorna da API
-        // $order->add_order_note("composicao:".$composicao);
         $order->add_order_note('Response: '.$response);
-        // Decodifica o JSON, para poder manipular no foreach, para ter acesso aos dados
+
         $response = json_decode($response);
 
         foreach ($response as $key => $value) {
