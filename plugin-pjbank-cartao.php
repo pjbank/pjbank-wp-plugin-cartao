@@ -1,11 +1,11 @@
 <?php
 /*
 Plugin Name: Cartão PJBank
-Plugin URI:  https://pjbank.com.br
+Plugin URI:  http://docs.pjbank.com.br/
 Description: Plugin para receber pagamentos de cartão através do PJBank.
 Version:     1.0
-Author:      Lucas Martim
-Author URI:  https://linkedin.com/in/lmartim
+Author:      PJBank
+Author URI:  https://pjbank.com.br
 License:     GPL2
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 Text Domain: wporg

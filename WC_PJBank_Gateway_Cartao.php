@@ -154,8 +154,6 @@ class WC_PJBank_Gateway_Cartao extends WC_Payment_Gateway {
             }
         }
 
-        die;
-        
         // Mark as on-hold (we're awaiting the cheque)
         // $order->update_status('on-hold', __( 'Awaiting cheque payment', 'woocommerce' ));
         // Return thankyou redirect
