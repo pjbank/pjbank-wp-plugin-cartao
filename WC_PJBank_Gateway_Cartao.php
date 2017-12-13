@@ -113,20 +113,18 @@ class WC_PJBank_Gateway_Cartao extends WC_Payment_Gateway {
             CURLOPT_TIMEOUT => 30,
             CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
             CURLOPT_CUSTOMREQUEST => "POST",            
-            CURLOPT_POSTFIELDS => '{
-                "token_cartao": "'.$token_cartao.'",
-                "nome_cartao": "'.$nome_cartao.'",
-                "mes_vencimento": "'.$mes_vencimento.'",
-                "ano_vencimento": "'.$ano_vencimento.'",
-                "cpf_cartao": "'.$cpf_cartao.'",
-                "email_cartao": "'.get_user_meta( $user_id, 'billing_email', true ).'",
-                "celular_cartao": "'.get_user_meta( $user_id, 'billing_phone', true).'",
-                "codigo_cvv": "'.$codigo_cvv.'",
-                "valor": "'.$total.'",
-                "parcelas": "'.$parcelas.'",
-                "descricao_pagamento": "",
-                "webhook": ""
-            }',
+            CURLOPT_POSTFIELDS => json_encode(array(
+                "token_cartao" => $token_cartao,
+                "nome_cartao" => $nome_cartao,
+                "mes_vencimento" => $mes_vencimento,
+                "ano_vencimento" => $ano_vencimento,
+                "cpf_cartao" => $cpf_cartao,
+                "email_cartao" => get_user_meta( $user_id, 'billing_email', true ),
+                "celular_cartao" => get_user_meta( $user_id, 'billing_phone', true),
+                "codigo_cvv" => $codigo_cvv,
+                "valor" => $total,
+                "parcelas" => $parcelas,
+            )),
             CURLOPT_HTTPHEADER => array(
                 "content-type: application/json",
                 "x-chave: ".$options['chave_cartao']." "
@@ -136,7 +134,7 @@ class WC_PJBank_Gateway_Cartao extends WC_Payment_Gateway {
         $response = curl_exec($curl);
         curl_close($curl);
         // FIM - Chamada da API para gerar o boleto
-
+        
         // Adiciona custom note no pedido, com o JSON que retorna da API
         $order->add_order_note('Response: '.$response);
 
@@ -155,6 +153,8 @@ class WC_PJBank_Gateway_Cartao extends WC_Payment_Gateway {
                 }
             }
         }
+
+        die;
         
         // Mark as on-hold (we're awaiting the cheque)
         // $order->update_status('on-hold', __( 'Awaiting cheque payment', 'woocommerce' ));
