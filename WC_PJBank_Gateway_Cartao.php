@@ -21,7 +21,7 @@ class WC_PJBank_Gateway_Cartao extends WC_Payment_Gateway {
 
     public function init_form_fields(){
         $this->form_fields = array(
-            'enabled_cartao' => array(
+            'enabled' => array(
                 'title' => __( 'Enable/Disable', 'woocommerce' ),
                 'type' => 'checkbox',
                 'label' => __( 'Pagamento Habilitado', 'woocommerce' ),
