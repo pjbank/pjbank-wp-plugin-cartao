@@ -90,7 +90,6 @@ class WC_PJBank_Gateway_Cartao extends WC_Payment_Gateway {
         $user_id = get_current_user_id();
         $options = get_option('woocommerce_pjbank_cartao_settings');
 
-
         update_post_meta( $order_id, '_pj_cartao', true);
         update_post_meta( $order_id, '_juros', $juros);
         update_post_meta( $order_id, '_parcelamento', $parcelamento );
@@ -133,7 +132,6 @@ class WC_PJBank_Gateway_Cartao extends WC_Payment_Gateway {
         // Retorno da API é salvo no $response
         $response = curl_exec($curl);
         curl_close($curl);
-        // FIM - Chamada da API para gerar o boleto
         
         // Adiciona custom note no pedido, com o JSON que retorna da API
         $order->add_order_note('Response: '.$response);
@@ -145,6 +143,8 @@ class WC_PJBank_Gateway_Cartao extends WC_Payment_Gateway {
             if($key == 'status'){
                 if(($value != 200) && ($value != 201)){
                     $error = true;
+                }else{
+                    $order->update_status('completed');
                 }
             }
             if($key == 'msg'){
@@ -154,8 +154,6 @@ class WC_PJBank_Gateway_Cartao extends WC_Payment_Gateway {
             }
         }
 
-        // Mark as on-hold (we're awaiting the cheque)
-        // $order->update_status('on-hold', __( 'Awaiting cheque payment', 'woocommerce' ));
         // Return thankyou redirect
         return array(
             'result' => 'success',
