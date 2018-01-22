@@ -132,7 +132,6 @@ class WC_PJBank_Gateway_Cartao extends WC_Payment_Gateway {
         // Retorno da API é salvo no $response
         $response = curl_exec($curl);
         curl_close($curl);
-        // FIM - Chamada da API para gerar o pedido
         
         // Adiciona custom note no pedido, com o JSON que retorna da API
         $order->add_order_note('Response: '.$response);
