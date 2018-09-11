@@ -26,6 +26,7 @@ function form_append_cartao(){
 
 	$options = get_option('woocommerce_pjbank_cartao_settings');
 	$jurosVista = $options['juros_vista'];
+	$jurosPri = $options['juros_pri'];
 	$jurosSec = $options['juros_sec'];
 	$jurosTri = $options['juros_tri'];
 
@@ -38,7 +39,7 @@ function form_append_cartao(){
 			var credencial = '<?php echo $credencial ?>';
 
 			superlogica.require("pjbank");
-			superlogica.pjbank("checkout_transparente", credencial);
+			superlogica.pjbank("checkout_transparente", credencial,options["homologacao"]);
 		/*]]>*/
 		</script>
 		<script>
@@ -55,6 +56,7 @@ function form_append_cartao(){
 				if(enabled_cartao){
 
 					var jurosVista = "<?php echo $jurosVista; ?>";
+					var jurosPri = "<?php echo $jurosPri; ?>";
 					var jurosSec = "<?php echo $jurosSec; ?>";
 					var jurosTri = "<?php echo $jurosTri; ?>";
 					var total = "<?php echo $total; ?>";
@@ -92,8 +94,8 @@ function form_append_cartao(){
 											<label for='parcelas'>Quantidade de Parcelas</label> \
 											<select name='total' class='input-text input-total'> \
 												<option qtparcelas='1' parcelamento='"+retornaParcela(total, 1, jurosVista)+"' juros='"+jurosVista+"' value='"+retornaTotal(total, 1, jurosVista)+"' selected='selected'>À Vista - "+calculaJuros(total, 1, jurosVista)+"</option> \
-												<option qtparcelas='2' parcelamento='"+retornaParcela(total, 2, jurosSec)+"' juros='"+jurosSec+"' value='"+retornaTotal(total, 2, jurosSec)+"'>2x com juros de "+calculaJuros(total, 2, jurosSec)+"</option> \
-												<option qtparcelas='3' parcelamento='"+retornaParcela(total, 3, jurosSec)+"' juros='"+jurosSec+"' value='"+retornaTotal(total, 3, jurosSec)+"'>3x com juros de "+calculaJuros(total, 3, jurosSec)+"</option> \
+												<option qtparcelas='2' parcelamento='"+retornaParcela(total, 2, jurosPri)+"' juros='"+jurosPri+"' value='"+retornaTotal(total, 2, jurosPri)+"'>2x com juros de "+calculaJuros(total, 2, jurosPri)+"</option> \
+												<option qtparcelas='3' parcelamento='"+retornaParcela(total, 3, jurosPri)+"' juros='"+jurosPri+"' value='"+retornaTotal(total, 3, jurosPri)+"'>3x com juros de "+calculaJuros(total, 3, jurosPri)+"</option> \
 												<option qtparcelas='4' parcelamento='"+retornaParcela(total, 4, jurosSec)+"' juros='"+jurosSec+"' value='"+retornaTotal(total, 4, jurosSec)+"'>4x com juros de "+calculaJuros(total, 4, jurosSec)+"</option> \
 												<option qtparcelas='5' parcelamento='"+retornaParcela(total, 5, jurosSec)+"' juros='"+jurosSec+"' value='"+retornaTotal(total, 5, jurosSec)+"'>5x com juros de "+calculaJuros(total, 5, jurosSec)+"</option> \
 												<option qtparcelas='6' parcelamento='"+retornaParcela(total, 6, jurosSec)+"' juros='"+jurosSec+"' value='"+retornaTotal(total, 6, jurosSec)+"'>6x com juros de "+calculaJuros(total, 6, jurosSec)+"</option> \

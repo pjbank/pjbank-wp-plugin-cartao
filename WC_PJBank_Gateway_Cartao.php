@@ -27,6 +27,12 @@ class WC_PJBank_Gateway_Cartao extends WC_Payment_Gateway {
                 'label' => __( 'Pagamento Habilitado', 'woocommerce' ),
                 'default' => 'no'
             ),
+            'homologacao' => array(
+                'title' => __( 'Ambiente Homologação ?'),
+                'type' => 'checkbox',
+                'description' => __( 'Informa ao plugin ambiente de homologação', 'woocommerce'),
+                'default' => 'yes',
+            ),
             'credencial_cartao' => array(
                 'title' => __( 'Credencial', 'woocommerce' ),
                 'type' => 'text',
@@ -54,16 +60,28 @@ class WC_PJBank_Gateway_Cartao extends WC_Payment_Gateway {
                 'description' => __( 'Porcentagem de juros que será cobrado no pagamento à vista', 'woocommerce'),
                 'desc_tip' => true,
             ),
-            'juros_sec' => array(
-                'title' => __( 'Juros parcelamento 2x ~ 6x'),
+            'juros_pri' => array(
+                'title' => __( 'Juros parcelamento 2x ~ 3x'),
                 'type' => 'number',
-                'description' => __( 'Porcentagem de juros que será cobrado no parcelamento 2x até 6x', 'woocommerce'),
+                'description' => __( 'Porcentagem de juros que será cobrado no parcelamento 2x até 3x', 'woocommerce'),
+                'desc_tip' => true,
+            ),
+            'juros_sec' => array(
+                'title' => __( 'Juros parcelamento 4x ~ 6x'),
+                'type' => 'number',
+                'description' => __( 'Porcentagem de juros que será cobrado no parcelamento 4x até 6x', 'woocommerce'),
                 'desc_tip' => true,
             ),
             'juros_tri' => array(
                 'title' => __( 'Juros parcelamento 7x ~ 12x'),
                 'type' => 'number',
                 'description' => __( 'Porcentagem de juros que será cobrado no parcelamento 7x até 12x', 'woocommerce'),
+                'desc_tip' => true,
+            ),
+            'webhook' => array(
+                'title' => __( 'URL Webhook'),
+                'type' => 'text',
+                'description' => __( 'URL que será chamada em caso de alterações na transação (consultar documentação do PJBank)', 'woocommerce'),
                 'desc_tip' => true,
             ),
         );
@@ -80,10 +98,24 @@ class WC_PJBank_Gateway_Cartao extends WC_Payment_Gateway {
         $mes_vencimento = $_POST['mes_vencimento'];
         $ano_vencimento = $_POST['ano_vencimento'];
         $codigo_cvv = $_POST['codigo_cvv'];
-        $total = $_POST['total'];
-        $juros = $_POST['juros'];
+        $total = $order->total;
         $parcelamento = $_POST['parcelamento'];
         $parcelas = $_POST['parcelas'];
+        if($parcelas==1){
+            $juros =  $this->get_option('juros_vista');
+        }else if(in_array($parcelas,array(2,3))){
+            $juros =  $this->get_option('juros_pri');
+        }else if(in_array($parcelas,array(4,5,6))){
+            $juros =  $this->get_option('juros_sec');
+        }else if(in_array($parcelas,array(7,8,9,10,11,12))){
+            $juros =  $this->get_option('juros_tri');
+        }else{
+            return array(
+                'result' => 'error',
+                'redirect' => $this->get_return_url( $order )
+            );
+        }
+        $total = number_format(floatval ($order->total * pow ( (1 + ($juros/100)), $parcelas )), 2);
 
         // Busca o usuário logado e as configurações do Plugin
         $current_user = wp_get_current_user();
@@ -101,11 +133,11 @@ class WC_PJBank_Gateway_Cartao extends WC_Payment_Gateway {
 
         // Remove cart
         // $woocommerce->cart->empty_cart();
-
+        $api = $options["homologacao"] ? "sandbox" : "api";
         // Inicia chamada cURL
         $curl = curl_init();
         curl_setopt_array($curl, array(
-            CURLOPT_URL => "https://api.pjbank.com.br/recebimentos/".$options['credencial_cartao']."/transacoes",
+            CURLOPT_URL => "https://".$api.".pjbank.com.br/recebimentos/".$options['credencial_cartao']."/transacoes",
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_ENCODING => "",
             CURLOPT_MAXREDIRS => 10,
@@ -123,6 +155,7 @@ class WC_PJBank_Gateway_Cartao extends WC_Payment_Gateway {
                 "codigo_cvv" => $codigo_cvv,
                 "valor" => $total,
                 "parcelas" => $parcelas,
+                "webhook" => $this->get_option('webhook')
             )),
             CURLOPT_HTTPHEADER => array(
                 "content-type: application/json",
