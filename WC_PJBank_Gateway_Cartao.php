@@ -27,6 +27,12 @@ class WC_PJBank_Gateway_Cartao extends WC_Payment_Gateway {
                 'label' => __( 'Pagamento Habilitado', 'woocommerce' ),
                 'default' => 'no'
             ),
+            'homologacao' => array(
+                'title' => __( 'Ambiente Homologação ?'),
+                'type' => 'checkbox',
+                'description' => __( 'Informa ao plugin ambiente de homologação', 'woocommerce'),
+                'default' => 'yes',
+            ),
             'credencial_cartao' => array(
                 'title' => __( 'Credencial', 'woocommerce' ),
                 'type' => 'text',
@@ -80,10 +86,17 @@ class WC_PJBank_Gateway_Cartao extends WC_Payment_Gateway {
         $mes_vencimento = $_POST['mes_vencimento'];
         $ano_vencimento = $_POST['ano_vencimento'];
         $codigo_cvv = $_POST['codigo_cvv'];
-        $total = $_POST['total'];
-        $juros = $_POST['juros'];
+        $total = $order->total;
         $parcelamento = $_POST['parcelamento'];
         $parcelas = $_POST['parcelas'];
+        if(in_array($parcelas,array(2,3))){
+            $juros =  $this->get_option('juros_pri');
+        }else if(in_array($parcelas,array(4,5,6))){
+            $juros =  $this->get_option('juros_sec');
+        }else if(in_array($parcelas,array(7,8,9,10,11,12))){
+            $juros =  $this->get_option('juros_tri');
+        }
+        $total = number_format(floatval ($order->total * pow ( (1 + ($juros/100)), $parcelas )), 2);
 
         // Busca o usuário logado e as configurações do Plugin
         $current_user = wp_get_current_user();
@@ -101,11 +114,11 @@ class WC_PJBank_Gateway_Cartao extends WC_Payment_Gateway {
 
         // Remove cart
         // $woocommerce->cart->empty_cart();
-
+        $api = $options["homologacao"] ? "sandbox" : "api";
         // Inicia chamada cURL
         $curl = curl_init();
         curl_setopt_array($curl, array(
-            CURLOPT_URL => "https://api.pjbank.com.br/recebimentos/".$options['credencial_cartao']."/transacoes",
+            CURLOPT_URL => "https://".$api.".pjbank.com.br/recebimentos/".$options['credencial_cartao']."/transacoes",
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_ENCODING => "",
             CURLOPT_MAXREDIRS => 10,
