@@ -101,12 +101,19 @@ class WC_PJBank_Gateway_Cartao extends WC_Payment_Gateway {
         $total = $order->total;
         $parcelamento = $_POST['parcelamento'];
         $parcelas = $_POST['parcelas'];
-        if(in_array($parcelas,array(2,3))){
+        if($parcelas==1){
+            $juros =  $this->get_option('juros_vista');
+        }else if(in_array($parcelas,array(2,3))){
             $juros =  $this->get_option('juros_pri');
         }else if(in_array($parcelas,array(4,5,6))){
             $juros =  $this->get_option('juros_sec');
         }else if(in_array($parcelas,array(7,8,9,10,11,12))){
             $juros =  $this->get_option('juros_tri');
+        }else{
+            return array(
+                'result' => 'error',
+                'redirect' => $this->get_return_url( $order )
+            );
         }
         $total = number_format(floatval ($order->total * pow ( (1 + ($juros/100)), $parcelas )), 2);
 
