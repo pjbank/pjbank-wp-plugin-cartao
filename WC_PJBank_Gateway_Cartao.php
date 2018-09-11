@@ -60,16 +60,28 @@ class WC_PJBank_Gateway_Cartao extends WC_Payment_Gateway {
                 'description' => __( 'Porcentagem de juros que será cobrado no pagamento à vista', 'woocommerce'),
                 'desc_tip' => true,
             ),
-            'juros_sec' => array(
-                'title' => __( 'Juros parcelamento 2x ~ 6x'),
+            'juros_pri' => array(
+                'title' => __( 'Juros parcelamento 2x ~ 3x'),
                 'type' => 'number',
-                'description' => __( 'Porcentagem de juros que será cobrado no parcelamento 2x até 6x', 'woocommerce'),
+                'description' => __( 'Porcentagem de juros que será cobrado no parcelamento 2x até 3x', 'woocommerce'),
+                'desc_tip' => true,
+            ),
+            'juros_sec' => array(
+                'title' => __( 'Juros parcelamento 4x ~ 6x'),
+                'type' => 'number',
+                'description' => __( 'Porcentagem de juros que será cobrado no parcelamento 4x até 6x', 'woocommerce'),
                 'desc_tip' => true,
             ),
             'juros_tri' => array(
                 'title' => __( 'Juros parcelamento 7x ~ 12x'),
                 'type' => 'number',
                 'description' => __( 'Porcentagem de juros que será cobrado no parcelamento 7x até 12x', 'woocommerce'),
+                'desc_tip' => true,
+            ),
+            'webhook' => array(
+                'title' => __( 'URL Webhook'),
+                'type' => 'text',
+                'description' => __( 'URL que será chamada em caso de alterações na transação (consultar documentação do PJBank)', 'woocommerce'),
                 'desc_tip' => true,
             ),
         );
@@ -136,6 +148,7 @@ class WC_PJBank_Gateway_Cartao extends WC_Payment_Gateway {
                 "codigo_cvv" => $codigo_cvv,
                 "valor" => $total,
                 "parcelas" => $parcelas,
+                "webhook" => $this->get_option('webhook')
             )),
             CURLOPT_HTTPHEADER => array(
                 "content-type: application/json",
