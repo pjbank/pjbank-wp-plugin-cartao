@@ -37,9 +37,9 @@ function form_append_cartao(){
 	?>
 		<script type="text/javascript">/*{literal}<![CDATA[*/
 			var credencial = '<?php echo $credencial ?>';
-
+			var options = '<?php echo $options["homologacao"]=="yes" ? "sandbox" : "api" ?>';
 			superlogica.require("pjbank");
-			superlogica.pjbank("checkout_transparente", credencial,options["homologacao"]);
+			superlogica.pjbank("checkout_transparente", credencial,options);
 		/*]]>*/
 		</script>
 		<script>
