@@ -133,7 +133,7 @@ class WC_PJBank_Gateway_Cartao extends WC_Payment_Gateway {
 
         // Remove cart
         // $woocommerce->cart->empty_cart();
-        $api = $options["homologacao"] ? "sandbox" : "api";
+        $api = $options["homologacao"]=="yes" ? "sandbox" : "api";
         // Inicia chamada cURL
         $curl = curl_init();
         curl_setopt_array($curl, array(
@@ -159,7 +159,7 @@ class WC_PJBank_Gateway_Cartao extends WC_Payment_Gateway {
             )),
             CURLOPT_HTTPHEADER => array(
                 "content-type: application/json",
-                "x-chave: ".$options['chave_cartao']." "
+                "X-CHAVE: ".$options['chave_cartao']." "
             ),
         )); 
         // Retorno da API é salvo no $response
@@ -176,22 +176,25 @@ class WC_PJBank_Gateway_Cartao extends WC_Payment_Gateway {
             if($key == 'status'){
                 if(($value != 200) && ($value != 201)){
                     $error = true;
+                    //Melhorando msg de erro para internauta
+                    wc_add_notice( __('Erro de pagamento: ', 'woothemes') . $response->msg, 'error' );
+                    $order->update_status('cancelled');
+                    return array(
+                        'result'   => 'failure',
+                        'messages' => "errroooou"
+                    );
                 }else{
                     $order->update_status('completed');
-                }
-            }
-            if($key == 'msg'){
-                if($error){
-                    wc_add_notice( __('Erro de pagamento: ', 'woothemes') . $value, 'error' );
+                      // Return thankyou redirect
+                    return array(
+                        'result' => 'success',
+                        'redirect' => $this->get_return_url( $order )
+                    );  
                 }
             }
         }
 
-        // Return thankyou redirect
-        return array(
-            'result' => 'success',
-            'redirect' => $this->get_return_url( $order )
-        );
+        
     }
 
     public function admin_options(){
